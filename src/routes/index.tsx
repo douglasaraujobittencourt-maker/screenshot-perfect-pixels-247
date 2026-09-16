@@ -1,10 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { DuplicateMode } from "@/components/DuplicateMode";
+import { createContext, useContext, useState } from "react";
 import { OverridesApplier } from "@/components/OverridesApplier";
-import { activateDevMode, onDevModeActivate } from "@/lib/dev-mode-bus";
 import { pageOverrides } from "@/lib/page-overrides";
-import { setTextOverride } from "@/lib/overrides-store";
 import {
   Video,
   Zap,
@@ -17,8 +14,6 @@ import {
   Check,
   ShieldCheck,
   Plus,
-  Pencil,
-  X,
 } from "lucide-react";
 import mockupApp from "@/assets/mockup-app.jpg";
 import mockupDevices from "@/assets/mockup-devices.png";
@@ -143,33 +138,12 @@ const initialContent: Record<Key, string> = (() => {
 })();
 
 function Index() {
-  const [content, setContent] = useState<Record<Key, string>>(initialContent);
-  const [editing, setEditing] = useState(false);
-
-  useEffect(() => {
-    setEditing(false);
-    activateDevMode("none");
-    return onDevModeActivate((source) => {
-      if (source !== "edit") setEditing(false);
-    });
-  }, []);
-
-  const update = (key: Key, value: string) => {
-    setContent((prev) => ({ ...prev, [key]: value }));
-    setTextOverride(key, value);
-  };
+  const [content] = useState<Record<Key, string>>(initialContent);
 
   return (
-    <EditCtx.Provider value={{ content, update, editing }}>
+    <EditCtx.Provider value={{ content }}>
     <div
-      onClickCapture={(e) => {
-        if (!editing) return;
-        const a = (e.target as HTMLElement).closest("a");
-        if (a) e.preventDefault();
-      }}
-      className={`min-h-screen bg-background font-body text-foreground antialiased selection:bg-accent/20 overflow-x-hidden ${
-        editing ? "editing" : ""
-      }`}
+      className="min-h-screen bg-background font-body text-foreground antialiased selection:bg-accent/20 overflow-x-hidden"
     >
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
@@ -511,18 +485,6 @@ function Index() {
         </section>
       </main>
 
-      <button
-        onClick={() => setEditing((enabled) => {
-          if (!enabled) activateDevMode("edit");
-          return !enabled;
-        })}
-        className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-2 font-mono text-xs text-muted-foreground backdrop-blur-md transition-colors hover:text-foreground"
-      >
-        {editing ? <X className="size-3.5" /> : <Pencil className="size-3.5" />}
-        {editing ? "sair da edição" : "modo edição"}
-      </button>
-
-      <DuplicateMode />
       <OverridesApplier />
     </div>
     </EditCtx.Provider>
@@ -531,9 +493,7 @@ function Index() {
 
 const EditCtx = createContext<{
   content: Record<Key, string>;
-  update: (k: Key, v: string) => void;
-  editing: boolean;
-}>({ content: defaults, update: () => {}, editing: false });
+}>({ content: defaults });
 
 function T({
   k,
@@ -544,58 +504,11 @@ function T({
   as?: React.ElementType;
   className?: string | undefined;
 }) {
-  const { content, update, editing } = useContext(EditCtx);
-  const value = !editing && CTA_KEYS.has(k) && !content[k]?.trim() ? defaults[k] : content[k];
+  const { content } = useContext(EditCtx);
+  const value = CTA_KEYS.has(k) && !content[k]?.trim() ? defaults[k] : content[k];
   return (
-    <Editable
-      value={value}
-      onChange={(v) => update(k, v)}
-      editing={editing}
-      as={Tag}
-      className={className}
-    />
-  );
-}
-
-function Editable({
-  value,
-  onChange,
-  editing,
-  as: Tag = "span",
-  className,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  editing: boolean;
-  as?: React.ElementType;
-  className?: string | undefined;
-}) {
-  const ref = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (el && document.activeElement !== el && el.textContent !== value) {
-      el.textContent = value;
-    }
-  });
-
-  if (!editing) {
-    return (
-      <Tag data-editable className={className}>
-        {value}
-      </Tag>
-    );
-  }
-
-  return (
-    <Tag
-      ref={ref}
-      data-editable
-      className={className}
-      contentEditable
-      suppressContentEditableWarning
-      spellCheck={false}
-      onInput={(e: React.FormEvent<HTMLElement>) => onChange(e.currentTarget.textContent ?? "")}
-    />
+    <Tag data-editable className={className}>
+      {value}
+    </Tag>
   );
 }
