@@ -371,6 +371,11 @@ function Index() {
                 >
                   <T k="buyCta" />
                 </a>
+                <img
+                  src="/selos-pagamento.png"
+                  alt="Selos de pagamento seguro Hotmart"
+                  className="mx-auto mt-4 block w-full max-w-[280px] h-auto"
+                />
                 <T k="buyNote" as="p" className="mt-3 block text-center font-mono text-xs text-primary-foreground/60" />
               </div>
               <div className="relative flex items-center justify-center">
