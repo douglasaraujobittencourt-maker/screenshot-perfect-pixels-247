@@ -1,0 +1,35 @@
+{
+  "text": {
+    "f1d": "Assista ao passo a passo prático e aprenda a configurar seu planner em minutos, sem complicação.",
+    "f2d": "Zero tabelas ou fórmulas difíceis. Configure sua rotina em poucos cliques e comece imediatamente.",
+    "f3d": "Veja exatamente quanto do edital você já venceu e o que falta para dominar cada uma das matérias.",
+    "f4d": "Acompanhe seu percentual de acertos e erros em gráficos simples, sem cálculos complexos.",
+    "f5d": "O app cobra cada revisão no dia certo. A partir de agora a sua única tarefa será apenas estudar.",
+    "f6d": "Marque o tempo líquido de estudo em cada matéria e mantenha seu histórico organizado com um clique.",
+    "f7d": "Compare suas horas planejadas x estudadas na prática em um painel centralizado e fácil de acompanhar.",
+    "f8d": "Receba frases inspiradoras e mensagens de apoio durante a rotina para manter sua mente motivada.",
+    "featuresCta": "QUERO O MEU PLANO DE ESTUDOS AGORA",
+    "contrastCta": "QUERO SAIR NA FRENTE E COMEÇAR HOJE",
+    "heroCta": "ORGANIZAR MEUS ESTUDOS EM 10 MINUTOS"
+  },
+  "ops": [
+    {
+      "type": "remove",
+      "path": [
+        0,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "type": "remove",
+      "path": [
+        0,
+        2,
+        3,
+        1
+      ]
+    }
+  ]
+}
