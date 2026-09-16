@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createContext, useContext, useState } from "react";
 import { OverridesApplier } from "@/components/OverridesApplier";
-import { PaymentTrustBadges } from "@/components/PaymentTrustBadges";
 import { pageOverrides } from "@/lib/page-overrides";
 import {
   Video,
@@ -372,7 +371,12 @@ function Index() {
                 >
                   <T k="buyCta" />
                 </a>
-                <PaymentTrustBadges />
+                <img
+                  src="/selos-pagamento.png"
+                  alt="Formas de pagamento: Pix, Mastercard e Visa"
+                  className="mx-auto mt-4 block w-full max-w-[170px] h-auto"
+                />
+                <T k="buyNote" as="p" className="mt-3 block text-center font-mono text-xs text-primary-foreground/60" />
               </div>
               <div className="relative flex items-center justify-center">
                 <div
