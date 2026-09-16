@@ -211,17 +211,6 @@ function Index() {
                 height={1280}
                 className="aspect-[4/5] w-full rounded-[14px] object-cover object-top"
               />
-              {editing && (
-                <button
-                  onClick={() => {
-                    const url = window.prompt("URL da imagem/mockup", content.mockup);
-                    if (url) update("mockup", url);
-                  }}
-                  className="absolute right-4 top-4 rounded-md bg-foreground/80 px-2.5 py-1.5 font-mono text-xs text-background"
-                >
-                  trocar imagem
-                </button>
-              )}
             </div>
           </div>
         </section>
